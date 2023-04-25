@@ -1,0 +1,38 @@
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { ErrorHandler } from "@angular/core";
+import ClientMonitor from "@sixthsense/sixthsense-javascript-agent";
+import { AppComponent } from "./app.component";
+import { RouterModule } from "@angular/router";
+import { UserComponent } from "./components/user/user.component";
+import { HttpClientModule } from "@angular/common/http";
+import { ReactiveFormsModule } from "@angular/forms";
+
+export class AppGlobalErrorhandler implements ErrorHandler {
+  handleError(error: any) {
+    ClientMonitor.reportFrameErrors(
+      {
+	collector: "https://prod-http-collector.34.120.183.186.sslip.io/oap",
+        service: "eComm-Angular",
+        pagePath: location.href,
+        serviceVersion: "1.0.0",
+          authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiIyMzJjZGRmNS1jMDc2LTQwOGUtYjgzNS04MzBlOWY5NWYyM2IiLCJiaWxsaW5nX2lkIjoiOGU5MTEwMDctMWUwYS00MTdmLTg2YjMtMzkwMWJiZTkzOTBlIiwiaWF0IjoxNjI0ODgyMzI3LCJhdWQiOiJvYXAiLCJpc3MiOiJzaXh0aC1zZW5zLWF1dGgifQ.K7NTkytxskBh4JZ3tMIfBVhicuaBITMyVHO4RYrylzE"
+      },
+      error
+    );
+  }
+}
+
+@NgModule({
+  declarations: [AppComponent, UserComponent],
+  imports: [
+    RouterModule.forRoot([]),
+    BrowserModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+  ],
+  providers: [{ provide: ErrorHandler, useClass: AppGlobalErrorhandler }],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+

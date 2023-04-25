@@ -1,0 +1,38 @@
+import { enableProdMode } from "@angular/core";
+import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
+
+import { AppModule } from "./app/app.module";
+import { environment } from "./environments/environment";
+import ClientMonitor from "@sixthsense/sixthsense-javascript-agent";
+
+ClientMonitor.register({
+      service: "eComm-Angular", // Name the app
+      collector: 'https://http-collector-observability.sixthsense.rakuten.com/oap', // Provided by the Onboarding team
+      pagePath: "index.html",
+      serviceVersion: "1.2.1",
+      enableSPA: true,
+      useFmp: true,
+      autoTracePerf: true,
+      detailMode: true,
+      environment: "prod",
+      authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJmOTJmMjFhMC0xNDQ2LTRlNjItOTM4ZS1lZWFhN2UwZTc4NDkiLCJiaWxsaW5nX2lkIjoiMzVhNzBlZDUtZjZmMS00ZGViLTg2YmItYjdhYWFiMmQ1ZDQ3IiwiaWF0IjoxNjQ0MjMwODk2LCJhdWQiOiJvYXAiLCJpc3MiOiJzaXh0aC1zZW5zLWF1dGgifQ.O133bsGRnNMuetwcnFm05hpw9uGbzCTPDP5KJhtA7ok",
+      enableDistributedTracing: true
+    });
+     
+    
+  ClientMonitor.setPerformance({
+      service: "eComm-Angular",
+      collector: 'https://http-collector-observability.sixthsense.rakuten.com/oap',
+      serviceVersion: "1.2.1",
+      perfInterval: 1000,
+      useFmp: true,
+      authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJmOTJmMjFhMC0xNDQ2LTRlNjItOTM4ZS1lZWFhN2UwZTc4NDkiLCJiaWxsaW5nX2lkIjoiMzVhNzBlZDUtZjZmMS00ZGViLTg2YmItYjdhYWFiMmQ1ZDQ3IiwiaWF0IjoxNjQ0MjMwODk2LCJhdWQiOiJvYXAiLCJpc3MiOiJzaXh0aC1zZW5zLWF1dGgifQ.O133bsGRnNMuetwcnFm05hpw9uGbzCTPDP5KJhtA7ok"
+     });
+
+if (environment.production) {
+  enableProdMode();
+}
+
+platformBrowserDynamic()
+  .bootstrapModule(AppModule)
+  .catch((err) => console.error(err));

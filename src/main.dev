@@ -1,0 +1,38 @@
+import { enableProdMode } from "@angular/core";
+import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
+
+import { AppModule } from "./app/app.module";
+import { environment } from "./environments/environment";
+import ClientMonitor from "@sixthsense/sixthsense-javascript-agent";
+
+ClientMonitor.register({
+      service: "eComm-Angular", // Name the app
+      collector: 'dev-http-collector.34.117.233.246.sslip.io/oap/', // Provided by the Onboarding team
+      pagePath: "index.html",
+      serviceVersion: "1.2.1",
+      enableSPA: true,
+      useFmp: true,
+      autoTracePerf: true,
+      detailMode: true,
+      environment: "prod",
+      authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiI3ZjAxZTg5Mi1mYTY0LTQwNWUtOTYzYS01ODVlODY1Y2JhZDMiLCJiaWxsaW5nX2lkIjoiYzM3NDU4ZTgtMzI3Yi00NzIyLWEzYzctMWY2NTk5ODNjYWE5IiwiaWF0IjoxNjE4ODM4NjgxLCJhdWQiOiJvYXAiLCJpc3MiOiJzaXh0aC1zZW5zLWF1dGgifQ.ZEYP4TIj9NzUEbtlnoujlJu_0dD6TcQ-Jqa2sgGukYQ",
+      enableDistributedTracing: true
+    });
+     
+    
+  ClientMonitor.setPerformance({
+      service: "eComm-Angular",
+      collector: 'dev-http-collector.34.117.233.246.sslip.io/oap/',
+      serviceVersion: "1.2.1",
+      perfInterval: 1000,
+      useFmp: true,
+      authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiI3ZjAxZTg5Mi1mYTY0LTQwNWUtOTYzYS01ODVlODY1Y2JhZDMiLCJiaWxsaW5nX2lkIjoiYzM3NDU4ZTgtMzI3Yi00NzIyLWEzYzctMWY2NTk5ODNjYWE5IiwiaWF0IjoxNjE4ODM4NjgxLCJhdWQiOiJvYXAiLCJpc3MiOiJzaXh0aC1zZW5zLWF1dGgifQ.ZEYP4TIj9NzUEbtlnoujlJu_0dD6TcQ-Jqa2sgGukYQ"
+     });
+
+if (environment.production) {
+  enableProdMode();
+}
+
+platformBrowserDynamic()
+  .bootstrapModule(AppModule)
+  .catch((err) => console.error(err));

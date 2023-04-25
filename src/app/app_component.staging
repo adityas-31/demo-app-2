@@ -1,0 +1,37 @@
+import { Component, OnInit } from "@angular/core";
+import ClientMonitor from "@sixthsense/sixthsense-javascript-agent";
+import { Router, Event, NavigationEnd } from "@angular/router";
+import { HttpClient } from '@angular/common/http';
+
+
+@Component({
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"],
+})
+  
+export class AppComponent {
+  title = "test";
+  dataItems: any;
+
+  loadData() {
+    let originUrl = window.location.origin;
+    this.dataItems = this.http.get(`${originUrl}assets/data.json`).subscribe(data => console.log('sample data',data));
+  }
+  // Report collected data to `http:// + window.location.host + /browser/perfData` in default
+  constructor(private router: Router, private http: HttpClient) {
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationEnd) {
+        ClientMonitor.setPerformance({
+	  collector: "https://stg-http-collector-observability.sixthsense.rakuten.com/oap",
+          service: "eComm-Angular",
+          serviceVersion: "1.0.0",
+          pagePath: location.href,
+          useFmp: true,
+	  authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiIxOGZhMDJmMS1iNjc1LTQ1MmQtYjllYy0yN2ZhYzdlZWM5MzUiLCJiaWxsaW5nX2lkIjoiYjVjNjVkMDgtMTVhYi00NDkwLTliZDMtM2FiZDc3ODZkN2YxIiwiaWF0IjoxNjIwMzY2NDgyLCJhdWQiOiJvYXAiLCJpc3MiOiJzaXh0aC1zZW5zLWF1dGgifQ.5U4Tlh8Abf25Wa-SJaf4KQHnNz8C-S35hG7ZG5PIHo8"
+        });
+      }
+    });
+    this.loadData();
+  }
+}
